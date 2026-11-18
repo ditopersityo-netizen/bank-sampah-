@@ -1,0 +1,1018 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jekan Raya Bersih</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f2;
+    color: #26352c;
+}
+
+header {
+    background: #167447;
+    color: white;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+header button {
+    background: white;
+    color: #167447;
+}
+
+.container {
+    width: 90%;
+    max-width: 1150px;
+    margin: 25px auto;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0000000d;
+    margin-bottom: 20px;
+}
+
+h2, h3 {
+    margin-bottom: 15px;
+}
+
+p {
+    line-height: 1.6;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button {
+    background: #167447;
+    color: white;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #105c36;
+}
+
+.menu {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.menu button {
+    background: #e0eee5;
+    color: #167447;
+}
+
+.menu button.active {
+    background: #167447;
+    color: white;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 15px;
+}
+
+.stat {
+    background: #e6f4eb;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.stat h2 {
+    color: #167447;
+    font-size: 25px;
+    overflow-wrap: anywhere;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #167447;
+    color: white;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.login-box {
+    width: 90%;
+    max-width: 420px;
+    margin: 60px auto;
+}
+
+.note {
+    background: #fff7df;
+    padding: 12px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* FOTO DAFTAR HARGA */
+.price-image {
+    display: block;
+    width: 100%;
+    max-width: 850px;
+    max-height: 500px;
+    height: auto;
+    object-fit: contain;
+    margin: 15px auto;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.price-search {
+    max-width: 450px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+a {
+    color: #167447;
+}
+
+@media(max-width:600px) {
+    header {
+        padding: 15px 5%;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .price-image {
+        max-width: 100%;
+        max-height: 350px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>♻️ Jekan Raya Bersih</h2>
+    <button id="logoutBtn" onclick="logout()" style="display:none">
+        Keluar
+    </button>
+</header>
+
+<!-- LOGIN DAN REGISTRASI -->
+<section id="authPage" class="login-box">
+    <div class="card">
+        <h2 id="authTitle">Login Pengguna</h2>
+
+        <div id="registerFields" style="display:none">
+            <label>Nama Lengkap</label>
+            <input type="text" id="regName" placeholder="Nama lengkap">
+
+            <label>Email</label>
+            <input type="email" id="regEmail" placeholder="Email">
+
+            <label>Password</label>
+            <input type="password" id="regPassword" placeholder="Password">
+
+            <button onclick="register()">Daftar Sekarang</button>
+        </div>
+
+        <div id="loginFields">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="Email">
+
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Password">
+
+            <button onclick="login()">Login</button>
+        </div>
+
+        <p id="switchText" style="margin-top:15px">
+            Belum memiliki akun?
+            <a href="#" onclick="showRegister()">Daftar di sini</a>
+        </p>
+    </div>
+</section>
+
+<!-- HALAMAN UTAMA -->
+<main id="mainPage" style="display:none">
+<div class="container">
+
+    <h2>Selamat Datang, <span id="userName"></span>!</h2>
+    <p>Sistem Informasi Pengelolaan Sampah Terpadu Kecamatan Jekan Raya.</p>
+
+    <!-- MENU -->
+    <nav class="menu">
+        <button class="active" onclick="showPage('dashboard',this)">Dashboard</button>
+        <button onclick="showPage('setoran',this)">Setoran Sampah</button>
+        <button onclick="showPage('pencatatan',this)">Pencatatan</button>
+        <button onclick="showPage('penukaran',this)">Informasi Penukaran</button>
+        <button onclick="showPage('saldo',this)">Saldo</button>
+        <button onclick="showPage('bank',this)">Bank Sampah</button>
+    </nav>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page active">
+        <div class="card">
+            <h2>Dashboard Pengelolaan Sampah</h2>
+            <p>
+                Selamat datang di Jekan Raya Bersih.
+                Mari bersama menjaga lingkungan dengan memilah,
+                mengumpulkan, dan mengelola sampah secara bijak.
+            </p>
+        </div>
+
+        <div class="grid">
+            <div class="stat">
+                <p>Total Setoran</p>
+                <h2 id="totalTransaksi">0</h2>
+            </div>
+
+            <div class="stat">
+                <p>Total Berat Sampah</p>
+                <h2 id="totalBerat">0 kg</h2>
+            </div>
+
+            <div class="stat">
+                <p>Total Saldo</p>
+                <h2 id="totalSaldo">Rp0</h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Tujuan Program</h3>
+            <p>
+                Membantu masyarakat melakukan penyetoran dan pemilahan
+                sampah, memudahkan pencatatan berat sampah, serta
+                memberikan nilai saldo berdasarkan harga sampah
+                yang telah ditentukan.
+            </p>
+        </div>
+    </section>
+
+    <!-- SETORAN SAMPAH -->
+    <section id="setoran" class="page">
+        <div class="card">
+            <h2>Formulir Setoran Sampah</h2>
+
+            <p>
+                Isi data penyetor dan masukkan hasil penimbangan
+                sampah yang akan disetorkan.
+            </p>
+
+            <br>
+
+            <label>Nama Penyetor</label>
+            <input type="text" id="depositName" readonly>
+
+            <label>Alamat Rumah</label>
+            <input type="text" id="homeAddress"
+                   placeholder="Contoh: Perumahan Jalan Melati">
+
+            <label>Nama Jalan</label>
+            <input type="text" id="streetName"
+                   placeholder="Contoh: Jalan G. Obos">
+
+            <label>Jenis Sampah</label>
+            <select id="wasteType" onchange="updateDepositInfo()">
+                <option value="">-- Pilih Jenis Sampah --</option>
+            </select>
+
+            <label id="quantityLabel">Berat Sampah (Kg)</label>
+            <input type="number" id="weight"
+                   placeholder="Masukkan hasil timbangan"
+                   min="0.01" step="0.01"
+                   oninput="calculateDepositValue()">
+
+            <label>Metode Penimbangan</label>
+            <select id="scaleMethod">
+                <option value="Timbangan Digital">Timbangan Digital</option>
+                <option value="Timbangan Manual">Timbangan Manual</option>
+            </select>
+
+            <label>Catatan (Opsional)</label>
+            <textarea id="depositNotes"
+                      placeholder="Tambahkan catatan jika diperlukan"></textarea>
+
+            <div class="stat">
+                <p>Harga per Satuan</p>
+                <h2 id="selectedPrice">Rp0</h2>
+
+                <p>Estimasi Nilai Setoran</p>
+                <h2 id="estimatedValue">Rp0</h2>
+            </div>
+
+            <br>
+            <button onclick="saveDeposit()">Simpan Setoran</button>
+        </div>
+    </section>
+
+    <!-- PENCATATAN -->
+    <section id="pencatatan" class="page">
+        <div class="card">
+            <h2>Pencatatan Setoran Sampah</h2>
+
+            <p>
+                Data berikut merupakan riwayat setoran yang
+                sudah dimasukkan oleh pengguna.
+            </p>
+
+            <br>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Nama</th>
+                            <th>Alamat Rumah</th>
+                            <th>Jalan</th>
+                            <th>Jenis Sampah</th>
+                            <th>Berat/Jumlah</th>
+                            <th>Metode</th>
+                            <th>Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- INFORMASI PENUKARAN -->
+    <section id="penukaran" class="page">
+        <div class="card">
+            <h2>Informasi Penukaran Sampah</h2>
+    
+
+
+            <p>
+                Berikut merupakan daftar jenis sampah dan harga
+                penukaran berdasarkan gambar daftar harga.
+            </p>
+
+            <div class="note">
+                Harga mengikuti daftar pada gambar dan dapat berubah
+                sesuai ketentuan pengelola Bank Sampah.
+            </div>
+
+            <h3>Gambar Daftar Harga Sampah</h3>
+
+            <img
+                src="Nilai tukar.jpeg"
+                alt="Nilai tukar"
+                class="price-image"
+            >
+
+            <br>
+
+            <h3>Daftar Harga dalam Bentuk Tabel</h3>
+
+            <input
+                type="text"
+                id="priceSearch"
+                class="price-search"
+                placeholder="Cari jenis sampah..."
+                oninput="renderPriceList()"
+            >
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Jenis Sampah</th>
+                            <th>Harga</th>
+                            <th>Satuan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="priceTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- SALDO -->
+    <section id="saldo" class="page">
+        <div class="card">
+            <h2>Sistem Saldo Pengguna</h2>
+            <p>
+                Saldo merupakan nilai uang dari sampah yang
+                telah disetorkan berdasarkan harga penukaran.
+            </p>
+        </div>
+
+        <div class="grid">
+            <div class="stat">
+                <p>Total Saldo</p>
+                <h2 id="saldoBalance">Rp0</h2>
+            </div>
+
+            <div class="stat">
+                <p>Total Setoran</p>
+                <h2 id="saldoTransactions">0</h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Riwayat Saldo</h3>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Jenis Sampah</th>
+                            <th>Jumlah</th>
+                            <th>Harga Satuan</th>
+                            <th>Nilai Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="saldoHistory"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="note">
+            Saldo pada prototipe ini merupakan simulasi nilai
+            penukaran. Belum tersedia fitur pencairan uang secara nyata.
+        </div>
+    </section>
+
+    <!-- BANK SAMPAH -->
+    <section id="bank" class="page">
+        <div class="card">
+            <h2>Bank Sampah Jekan Mandiri</h2>
+
+            <p>
+                Bank Sampah Jekan Mandiri merupakan informasi layanan
+                pengelolaan sampah yang dapat dimanfaatkan masyarakat
+                untuk mengumpulkan dan memilah sampah bernilai guna.
+            </p>
+
+            <br>
+
+            <h3>Informasi Lokasi</h3>
+            <p>Alamat: Jl. G. Obos XII</p>
+
+            <br>
+
+            <h3>Layanan</h3>
+            <ul style="padding-left:20px;line-height:2">
+                <li>Penerimaan sampah yang dapat didaur ulang.</li>
+                <li>Pemilahan sampah berdasarkan jenis.</li>
+                <li>Penimbangan sampah.</li>
+                <li>Pencatatan hasil penyetoran.</li>
+                <li>Penukaran sampah berdasarkan harga.</li>
+            </ul>
+        </div>
+    </section>
+
+</div>
+</main>
+
+<footer>
+    <p>© 2026 Jekan Raya Bersih | Peduli Lingkungan, Kurangi Sampah</p>
+</footer>
+
+<script>
+
+// DATA HARGA SAMPAH
+const wastePrices = [
+    {id:1, name:"Kardus", price:1000},
+    {id:2, name:"Botol kemasan bersih (tanpa tutup dan label)", price:3000},
+    {id:3, name:"Plastik campur/pemberan", price:200},
+    {id:4, name:"Blowing (botol shampoo, Bayclin, bedak dll)", price:700},
+    {id:5, name:"Kaleng (SKM, sarden, Baygon, dll)", price:700},
+    {id:6, name:"Ker asan", price:100},
+    {id:7, name:"Kertas putih / HVS", price:900},
+    {id:8, name:"Kertas buram", price:200},
+    {id:9, name:"Aluminium", price:11000},
+    {id:10, name:"Kaleng ZN Sprite dll", price:9000},
+    {id:11, name:"Tutup botol", price:700},
+    {id:12, name:"Koran bersih dan rapi", price:2700},
+    {id:13, name:"Koran kotor", price:200},
+    {id:14, name:"Gelas bening/polos", price:1700},
+    {id:15, name:"Gelas sablon (poci, dll)", price:700},
+    {id:16, name:"Baja ringan/drum", price:700},
+    {id:17, name:"PET/botol kemasan kotor", price:1700},
+    {id:18, name:"Besi tipis", price:1200},
+    {id:19, name:"Besi tebal", price:1700},
+    {id:20, name:"Botol Malaga", price:100},
+    {id:21, name:"Botol Angker Bir", price:100},
+    {id:22, name:"Botol anggur merah", price:100},
+    {id:23, name:"Botol kecap/saos", price:100},
+    {id:24, name:"Minyak goreng bekas/jelantah", price:2500},
+    {id:25, name:"Duplex/kertas tebal", price:100},
+    {id:26, name:"Jerigen putih", price:700},
+    {id:27, name:"Thinwall (kemasan makanan) bening", price:700},
+    {id:28, name:"Tabak telur bagus", price:100, unit:"lembar"},
+    {id:29, name:"Aki basah/kering", price:4700},
+    {id:30, name:"Plastik kresek/kantongan", price:200},
+    {id:31, name:"Kertas campur/buku pelajaran", price:700},
+    {id:32, name:"Gelas air mineral tanpa sedotan", price:1200}
+];
+
+// DATA PENGGUNA
+let currentUser =
+    JSON.parse(localStorage.getItem("currentUser")) || null;
+
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users") || "[]");
+}
+
+function getDeposits() {
+    return JSON.parse(localStorage.getItem("deposits") || "{}");
+}
+
+function saveData(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+// FORMAT RUPIAH
+function rupiah(number) {
+    return "Rp" + Number(number).toLocaleString("id-ID");
+}
+
+// REGISTRASI
+function showRegister() {
+    document.getElementById("loginFields").style.display = "none";
+    document.getElementById("registerFields").style.display = "block";
+    document.getElementById("authTitle").innerText =
+        "Registrasi Pengguna";
+
+    document.getElementById("switchText").innerHTML =
+        'Sudah memiliki akun? <a href="#" onclick="showLogin()">Login di sini</a>';
+}
+
+function showLogin() {
+    document.getElementById("loginFields").style.display = "block";
+    document.getElementById("registerFields").style.display = "none";
+    document.getElementById("authTitle").innerText =
+        "Login Pengguna";
+
+    document.getElementById("switchText").innerHTML =
+        'Belum memiliki akun? <a href="#" onclick="showRegister()">Daftar di sini</a>';
+}
+
+function register() {
+    let name = document.getElementById("regName").value.trim();
+    let email = document.getElementById("regEmail").value.trim().toLowerCase();
+    let password = document.getElementById("regPassword").value;
+
+    if (!name || !email || !password) {
+        alert("Semua kolom harus diisi!");
+        return;
+    }
+
+    if (password.length < 6) {
+        alert("Password minimal 6 karakter!");
+        return;
+    }
+
+    let users = getUsers();
+
+    if (users.some(user => user.email === email)) {
+        alert("Email sudah terdaftar!");
+        return;
+    }
+
+    users.push({
+        name: name,
+        email: email,
+        password: password
+    });
+
+    saveData("users", users);
+
+    alert("Registrasi berhasil! Silakan login.");
+    showLogin();
+}
+
+// LOGIN
+function login() {
+    let email = document.getElementById("loginEmail").value.trim().toLowerCase();
+    let password = document.getElementById("loginPassword").value;
+
+    let users = getUsers();
+
+    let user = users.find(u =>
+        u.email === email && u.password === password
+    );
+
+    if (!user) {
+        alert("Email atau password salah!");
+        return;
+    }
+
+    currentUser = user;
+    localStorage.setItem("currentUser", JSON.stringify(user));
+
+    openDashboard();
+}
+
+// LOGOUT
+function logout() {
+    localStorage.removeItem("currentUser");
+    currentUser = null;
+
+    document.getElementById("mainPage").style.display = "none";
+    document.getElementById("authPage").style.display = "block";
+    document.getElementById("logoutBtn").style.display = "none";
+
+    showLogin();
+}
+
+// DASHBOARD
+function openDashboard() {
+    document.getElementById("authPage").style.display = "none";
+    document.getElementById("mainPage").style.display = "block";
+    document.getElementById("logoutBtn").style.display = "block";
+
+    document.getElementById("userName").innerText =
+        currentUser.name;
+
+    document.getElementById("depositName").value =
+        currentUser.name;
+
+    updateDashboard();
+}
+
+// NAVIGASI
+function showPage(pageId, button) {
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.querySelectorAll(".menu button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+    button.classList.add("active");
+
+    if (pageId === "pencatatan") renderHistory();
+    if (pageId === "saldo") renderSaldo();
+    if (pageId === "penukaran") renderPriceList();
+}
+
+// PILIHAN JENIS SAMPAH
+function loadWasteOptions() {
+    let select = document.getElementById("wasteType");
+
+    wastePrices.forEach(item => {
+        let option = document.createElement("option");
+        option.value = item.id;
+        option.textContent =
+            item.name + " - " + rupiah(item.price) +
+            "/" + (item.unit || "kg");
+
+        select.appendChild(option);
+    });
+}
+
+// AMBIL SAMPAH YANG DIPILIH
+function getSelectedWaste() {
+    let id = Number(document.getElementById("wasteType").value);
+    return wastePrices.find(item => item.id === id);
+}
+
+// TAMPILKAN HARGA SETORAN
+function updateDepositInfo() {
+    let item = getSelectedWaste();
+
+    if (!item) {
+        document.getElementById("selectedPrice").innerText = "Rp0";
+        document.getElementById("estimatedValue").innerText = "Rp0";
+        document.getElementById("quantityLabel").innerText =
+            "Berat Sampah (Kg)";
+        document.getElementById("weight").placeholder =
+            "Masukkan hasil timbangan";
+        return;
+    }
+
+    let unit = item.unit || "kg";
+
+    document.getElementById("selectedPrice").innerText =
+        rupiah(item.price) + " / " + unit;
+
+    if (item.unit === "lembar") {
+        document.getElementById("quantityLabel").innerText =
+            "Jumlah Tabak Telur (Lembar)";
+        document.getElementById("weight").placeholder =
+            "Masukkan jumlah lembar";
+    } else {
+        document.getElementById("quantityLabel").innerText =
+            "Berat Sampah (Kg)";
+        document.getElementById("weight").placeholder =
+            "Masukkan berat dalam kg";
+    }
+
+    calculateDepositValue();
+}
+
+// HITUNG NILAI SETORAN
+function calculateDepositValue() {
+    let item = getSelectedWaste();
+    let quantity = Number(document.getElementById("weight").value) || 0;
+
+    if (!item) {
+        document.getElementById("estimatedValue").innerText = "Rp0";
+        return;
+    }
+
+    let value = Math.round(quantity * item.price);
+
+    document.getElementById("estimatedValue").innerText =
+        rupiah(value);
+}
+
+// DATA SETORAN PENGGUNA
+function getMyDeposits() {
+    if (!currentUser) return [];
+
+    let deposits = getDeposits();
+    return deposits[currentUser.email] || [];
+}
+
+// SIMPAN SETORAN
+function saveDeposit() {
+    if (!currentUser) return;
+
+    let item = getSelectedWaste();
+
+    let name = currentUser.name;
+    let address = document.getElementById("homeAddress").value.trim();
+    let street = document.getElementById("streetName").value.trim();
+    let quantity = Number(document.getElementById("weight").value);
+    let method = document.getElementById("scaleMethod").value;
+    let notes = document.getElementById("depositNotes").value.trim();
+
+    if (!address || !street) {
+        alert("Alamat rumah dan nama jalan harus diisi!");
+        return;
+    }
+
+    if (!item) {
+        alert("Pilih jenis sampah terlebih dahulu!");
+        return;
+    }
+
+    if (!Number.isFinite(quantity) || quantity <= 0) {
+        alert("Masukkan berat atau jumlah sampah yang benar!");
+        return;
+    }
+
+    let totalValue = Math.round(quantity * item.price);
+
+    let deposits = getDeposits();
+    let email = currentUser.email;
+
+    if (!deposits[email]) {
+        deposits[email] = [];
+    }
+
+    deposits[email].push({
+        id: Date.now(),
+        date: new Date().toLocaleString("id-ID"),
+        name: name,
+        address: address,
+        street: street,
+        itemId: item.id,
+        type: item.name,
+        quantity: quantity,
+        unit: item.unit || "kg",
+        price: item.price,
+        method: method,
+        notes: notes || "-",
+        totalValue: totalValue
+    });
+
+    saveData("deposits", deposits);
+
+    alert(
+        "Setoran berhasil dicatat!\n" +
+        "Nilai setoran: " + rupiah(totalValue)
+    );
+
+    document.getElementById("homeAddress").value = "";
+    document.getElementById("streetName").value = "";
+    document.getElementById("wasteType").value = "";
+    document.getElementById("weight").value = "";
+    document.getElementById("depositNotes").value = "";
+
+    updateDepositInfo();
+    updateDashboard();
+    renderHistory();
+    renderSaldo();
+}
+
+// UPDATE DASHBOARD
+function updateDashboard() {
+    let deposits = getMyDeposits();
+
+    let totalTransactions = deposits.length;
+
+    let totalWeight = deposits.reduce((total, item) => {
+        if (item.unit === "lembar") return total;
+        return total + Number(item.quantity || 0);
+    }, 0);
+
+    let totalBalance = deposits.reduce((total, item) => {
+        return total + Number(item.totalValue || 0);
+    }, 0);
+
+    document.getElementById("totalTransaksi").innerText =
+        totalTransactions;
+
+    document.getElementById("totalBerat").innerText =
+        totalWeight.toFixed(2) + " kg";
+
+    document.getElementById("totalSaldo").innerText =
+        rupiah(totalBalance);
+}
+
+// TAMPILKAN PENCATATAN
+function renderHistory() {
+    let deposits = getMyDeposits();
+    let table = document.getElementById("historyTable");
+
+    table.innerHTML = "";
+
+    if (deposits.length === 0) {
+        table.innerHTML =
+            '<tr><td colspan="8">Belum ada data setoran.</td></tr>';
+        return;
+    }
+
+    deposits.slice().reverse().forEach(item => {
+        let row = document.createElement("tr");
+
+        let values = [
+            item.date,
+            item.name,
+            item.address,
+            item.street,
+            item.type,
+            item.quantity + " " + item.unit,
+            item.method,
+            item.notes
+        ];
+
+        values.forEach(value => {
+            let cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+
+        table.appendChild(row);
+    });
+}
+
+// TAMPILKAN SALDO
+function renderSaldo() {
+    let deposits = getMyDeposits();
+
+    let totalBalance = deposits.reduce((total, item) => {
+        return total + Number(item.totalValue || 0);
+    }, 0);
+
+    document.getElementById("saldoBalance").innerText =
+        rupiah(totalBalance);
+
+    document.getElementById("saldoTransactions").innerText =
+        deposits.length;
+
+    let table = document.getElementById("saldoHistory");
+    table.innerHTML = "";
+
+    if (deposits.length === 0) {
+        table.innerHTML =
+            '<tr><td colspan="5">Belum ada riwayat saldo.</td></tr>';
+        return;
+    }
+
+    deposits.slice().reverse().forEach(item => {
+        let row = document.createElement("tr");
+
+        let values = [
+            item.date,
+            item.type,
+            item.quantity + " " + item.unit,
+            rupiah(item.price) + "/" + item.unit,
+            rupiah(item.totalValue)
+        ];
+
+        values.forEach(value => {
+            let cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+
+        table.appendChild(row);
+    });
+}
+
+// DAFTAR HARGA DAN PENCARIAN
+function renderPriceList() {
+    let search = document.getElementById("priceSearch").value.toLowerCase();
+    let table = document.getElementById("priceTable");
+
+    table.innerHTML = "";
+
+    let filtered = wastePrices.filter(item =>
+        item.name.toLowerCase().includes(search)
+    );
+
+    if (filtered.length === 0) {
+        table.innerHTML =
+            '<tr><td colspan="4">Jenis sampah tidak ditemukan.</td></tr>';
+        return;
+    }
+
+    filtered.forEach(item => {
+        let row = document.createElement("tr");
+
+        let values = [
+            item.id,
+            item.name,
+            rupiah(item.price),
+            item.unit || "kg"
+        ];
+
+        values.forEach(value => {
+            let cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+
+        table.appendChild(row);
+    });
+}
+
+// SAAT WEBSITE DIBUKA
+loadWasteOptions();
+renderPriceList();
+
+if (currentUser) {
+    openDashboard();
+}
+
+</script>
+
+</body>
+</html>
